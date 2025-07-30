@@ -53,8 +53,11 @@ export class HashMap {
 
     remove(key) {
         let hashCode = this.hash(key);
-        if (!this.buckets[this.hashCode]) return false;
+        if (!this.buckets[hashCode].contains(key)) return false;
 
+        let index = this.buckets[hashCode].find(key);
+        this.buckets[hashCode].removeAt(index);
+        return true;
     }
 
 }
