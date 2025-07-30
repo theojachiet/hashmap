@@ -1,0 +1,21 @@
+{
+  "name": "hashmap",
+  "version": "1.0.0",
+  "description": "implementing a simple hashmap data structure",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theojachiet/hashmap.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/theojachiet/hashmap/issues"
+  },
+  "homepage": "https://github.com/theojachiet/hashmap#readme"
+}

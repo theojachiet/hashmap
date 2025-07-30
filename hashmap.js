@@ -1,4 +1,6 @@
-class HashMap {
+import { LinkedList } from "./linkedlist.js";
+
+export class HashMap {
     constructor(capacity, loadFactor) {
         this.capacity = capacity;
         this.loadFactor = loadFactor;
@@ -17,23 +19,21 @@ class HashMap {
     }
 
     set(key, value) {
-        let hashCode= hash(key);
-        
-        //Key is already stored : we update the value
-        if (this.buckets[hashCode].key === key) {
-            this.buckets[hashCode].value = value;
-        }
+        let hashCode = hash(key);
 
         //Key doesn't exist : we store the key value pair
         if (this.buckets[hashCode] == null) {
-            this.buckets.key = key;
-            this.buckets[hashCode].value = value;
+            this.buckets[hashCode] = new LinkedList();
+            this.buckets[hashCode].append([key, value]);
             //TODO : check if array exceeds the load factor and resize if it's the case
-        }
-
-        //hashcode is taken but key is different : we reate a new node
-        if (this.buckets[hashCode].key !== key) {
-            //Create node
+        } else {
+            //Key is already stored : we update the value
+            if (this.buckets[hashCode].contains(key)) {
+                this.buckets[hashCode].value[1] = value;
+            } else {
+                //hashcode is taken but key is different : we create a new node
+                this.buckets[hashCode].append([key, value]);
+            }
         }
     }
 
