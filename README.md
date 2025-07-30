@@ -1,2 +1,2 @@
 # hashmap
-implementing a simple hashmap datta structure
+implementing a simple hashmap data structure
