@@ -86,4 +86,29 @@ export class HashMap {
         return keys;
     }
 
+    values() {
+        let values = [];
+        for (let bucket of buckets) {
+            if (!bucket) continue;
+            for (let i = 0; i < bucket.size(); i++) {
+                let value = bucket.at(i).value[1];
+                values.push(value);
+            }
+        }
+        return values;
+    }
+
+    entries() {
+        let entries = [];
+        for (let bucket of buckets) {
+            if (!bucket) continue;
+            for (let i = 0; i < bucket.size(); i++) {
+                let key = bucket.at(i).value[0];
+                let value = bucket.at(i).value[1];
+                entries.push([key, value]);
+            }
+        }
+        return entries;
+    }
+
 }
