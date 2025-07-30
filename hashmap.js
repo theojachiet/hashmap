@@ -19,7 +19,7 @@ export class HashMap {
     }
 
     set(key, value) {
-        let hashCode = hash(key);
+        let hashCode = this.hash(key);
 
         //Key doesn't exist : we store the key value pair
         if (this.buckets[hashCode] == null) {
@@ -29,12 +29,32 @@ export class HashMap {
         } else {
             //Key is already stored : we update the value
             if (this.buckets[hashCode].contains(key)) {
-                this.buckets[hashCode].value[1] = value;
+                let index = this.buckets[hashCode].find(key);
+                this.buckets[hashCode].at(index).value[1] = value;
             } else {
                 //hashcode is taken but key is different : we create a new node
                 this.buckets[hashCode].append([key, value]);
             }
         }
+    }
+
+    get(key) {
+        let hashCode = this.hash(key);
+        if (!this.buckets[hashCode].contains(key)) return null;
+
+        let index = this.buckets[hashCode].find(key);
+        return this.buckets[hashCode].at(index).value[1];
+    }
+
+    has(key) {
+        let hashCode = this.hash(key);
+        return this.buckets[hashCode].contains(key);
+    }
+
+    remove(key) {
+        let hashCode = this.hash(key);
+        if (!this.buckets[this.hashCode]) return false;
+
     }
 
 }

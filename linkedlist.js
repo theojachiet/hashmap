@@ -88,17 +88,17 @@ export class LinkedList {
         return temp.value[0] === key;
     }
 
-    find(value) {
+    find(key) {
         let temp = this.head;
         let currentIndex = 0;
 
         while (temp.nextNode != null) {
-            if (temp.value === value) return currentIndex;
+            if (temp.value[0] === key) return currentIndex;
             temp = temp.nextNode;
             currentIndex++;
         }
 
-        if (temp.value === value) return currentIndex;
+        if (temp.value[0] === key) return currentIndex;
 
         return null;
     }
