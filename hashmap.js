@@ -5,6 +5,7 @@ export class HashMap {
         this.capacity = capacity;
         this.loadFactor = loadFactor;
         this.buckets = new Array(16);
+        this.length = 0;
     }
 
     hash(key) {
@@ -25,6 +26,7 @@ export class HashMap {
         if (this.buckets[hashCode] == null) {
             this.buckets[hashCode] = new LinkedList();
             this.buckets[hashCode].append([key, value]);
+            this.length++;
             //TODO : check if array exceeds the load factor and resize if it's the case
         } else {
             //Key is already stored : we update the value
@@ -34,6 +36,7 @@ export class HashMap {
             } else {
                 //hashcode is taken but key is different : we create a new node
                 this.buckets[hashCode].append([key, value]);
+                this.length++;
             }
         }
     }
@@ -57,7 +60,30 @@ export class HashMap {
 
         let index = this.buckets[hashCode].find(key);
         this.buckets[hashCode].removeAt(index);
+        this.length--;
         return true;
+    }
+
+    length() {
+        //Maybe i should implement a real way to calculate this but for now i find this pretty good actually
+        return this.length;
+    }
+
+    clear() {
+        this.buckets = new Array(16); //TODO : does this reset all the indexes ?
+        this.length = 0;
+    }
+
+    keys() {
+        let keys = [];
+        for (let bucket of buckets) {
+            if (!bucket) continue;
+            for (let i = 0; i < bucket.size(); i++) {
+                let key = bucket.at(i).value[0];
+                keys.push(key);
+            }
+        }
+        return keys;
     }
 
 }
