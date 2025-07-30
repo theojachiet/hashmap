@@ -1,4 +1,13 @@
 import { HashMap } from "./hashmap.js";
 
-let map = new HashMap();
-console.log(typeof map);
+ const test = new HashMap()
+
+ test.set('apple', 'red')
+ test.set('banana', 'yellow')
+ test.set('carrot', 'orange')
+ test.set('dog', 'brown')
+ test.set('elephant', 'gray')
+ test.set('frog', 'green')
+ test.set('grape', 'purple')
+ test.set('hat', 'black')
+ test.set('ice cream', 'white')

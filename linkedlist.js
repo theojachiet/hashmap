@@ -17,7 +17,7 @@ export class LinkedList {
                 temp = temp.nextNode;
             }
 
-            temp.nextNode = new Node(value, null);
+            temp.nextNode = new Node(value, null);  
         }
     }
 

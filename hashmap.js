@@ -1,10 +1,10 @@
 import { LinkedList } from "./linkedlist.js";
 
 export class HashMap {
-    constructor(capacity, loadFactor) {
+    constructor(capacity = 16, loadFactor = 0.75) {
         this.capacity = capacity;
         this.loadFactor = loadFactor;
-        this.buckets = new Array(16);
+        this.buckets = new Array(capacity);
         this.length = 0;
     }
 
@@ -27,6 +27,7 @@ export class HashMap {
             this.buckets[hashCode] = new LinkedList();
             this.buckets[hashCode].append([key, value]);
             this.length++;
+            this.checkGrowth();
             //TODO : check if array exceeds the load factor and resize if it's the case
         } else {
             //Key is already stored : we update the value
@@ -109,6 +110,33 @@ export class HashMap {
             }
         }
         return entries;
+    }
+
+    checkGrowth() {
+        let populatedIndexes = 0;
+        for (let bucket of this.buckets) {
+            if (bucket) {
+                populatedIndexes++;
+            }
+        }
+
+        let currentLoad = this.buckets.length / populatedIndexes;
+        if (currentLoad >= this.loadFactor) {
+            this.grow();
+        }
+    }
+
+    grow() {
+        let newArr = new Array(this.buckets.length * 2);
+
+        //Storing the pairs in a temp Array and reassigning the buckets array;
+        let entries = entries();
+        this.buckets = newArr;
+
+        //Re-populating the array
+        for (let entry of entries) {
+            this.set(entry[0], entry[1]);
+        }
     }
 
 }
