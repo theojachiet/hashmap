@@ -1,11 +1,11 @@
 import { LinkedList } from "./linkedlist.js";
 
 export class HashMap {
-    constructor(capacity = 16, loadFactor = 0.75) {
+    constructor(capacity = 17, loadFactor = 0.75) {
         this.capacity = capacity;
         this.loadFactor = loadFactor;
         this.buckets = new Array(capacity);
-        this.length = 0;
+        this.currentLength = 0;
     }
 
     hash(key) {
@@ -16,8 +16,10 @@ export class HashMap {
             hashCode = (primeNumber * hashCode + key.charCodeAt(i)) % this.capacity;
         }
 
-        return hashCode;
+        return hashCode % this.capacity;
     }
+
+
 
     set(key, value) {
         let hashCode = this.hash(key);
@@ -26,7 +28,7 @@ export class HashMap {
         if (this.buckets[hashCode] == null) {
             this.buckets[hashCode] = new LinkedList();
             this.buckets[hashCode].append([key, value]);
-            this.length++;
+            this.currentLength++;
             this.checkGrowth();
             //TODO : check if array exceeds the load factor and resize if it's the case
         } else {
@@ -37,7 +39,7 @@ export class HashMap {
             } else {
                 //hashcode is taken but key is different : we create a new node
                 this.buckets[hashCode].append([key, value]);
-                this.length++;
+                this.currentLength++;
             }
         }
     }
@@ -61,18 +63,18 @@ export class HashMap {
 
         let index = this.buckets[hashCode].find(key);
         this.buckets[hashCode].removeAt(index);
-        this.length--;
+        this.currentLength--;
         return true;
     }
 
     length() {
         //Maybe i should implement a real way to calculate this but for now i find this pretty good actually
-        return this.length;
+        return this.currentLength;
     }
 
     clear() {
         this.buckets = new Array(16); //TODO : does this reset all the indexes ?
-        this.length = 0;
+        this.currentLength = 0;
     }
 
     keys() {
@@ -101,8 +103,8 @@ export class HashMap {
 
     entries() {
         let entries = [];
-        for (let bucket of buckets) {
-            if (!bucket) continue;
+        for (let bucket of this.buckets) {
+            if (!bucket || bucket[0] == null) continue;
             for (let i = 0; i < bucket.size(); i++) {
                 let key = bucket.at(i).value[0];
                 let value = bucket.at(i).value[1];
@@ -120,7 +122,7 @@ export class HashMap {
             }
         }
 
-        let currentLoad = this.buckets.length / populatedIndexes;
+        let currentLoad = populatedIndexes / this.buckets.length;
         if (currentLoad >= this.loadFactor) {
             this.grow();
         }

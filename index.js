@@ -11,3 +11,7 @@ import { HashMap } from "./hashmap.js";
  test.set('grape', 'purple')
  test.set('hat', 'black')
  test.set('ice cream', 'white')
+
+console.log(test.remove('ice cream'));
+
+ console.log(test.entries());

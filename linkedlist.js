@@ -17,7 +17,7 @@ export class LinkedList {
                 temp = temp.nextNode;
             }
 
-            temp.nextNode = new Node(value, null);  
+            temp.nextNode = new Node(value, null);
         }
     }
 
@@ -65,6 +65,11 @@ export class LinkedList {
     }
 
     pop() {
+        if (this.size() === 1) {
+            this.head = null;
+            return;
+        }
+
         let temp = this.head;
         let next = temp.nextNode;
 
@@ -137,7 +142,11 @@ export class LinkedList {
 
     removeAt(index) {
         if (index < 0 || index > this.size() - 1) throw new Error('Index out of bounds');
-        if (index === this.size() - 1) return this.pop();
+        if (index === this.size() - 1) {
+            console.log('pop');
+            this.pop();
+            return;
+        }
 
         let prev = this.head;
         let temp = prev.nextNode;
