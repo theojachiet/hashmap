@@ -66,6 +66,7 @@ export class LinkedList {
 
     pop() {
         if (this.size() === 1) {
+            console.log('pop2');
             this.head = null;
             return;
         }
@@ -144,6 +145,7 @@ export class LinkedList {
         if (index < 0 || index > this.size() - 1) throw new Error('Index out of bounds');
         if (index === this.size() - 1) {
             console.log('pop');
+            console.log(index);
             this.pop();
             return;
         }

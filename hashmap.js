@@ -104,11 +104,11 @@ export class HashMap {
     entries() {
         let entries = [];
         for (let bucket of this.buckets) {
-            if (!bucket || bucket[0] == null) continue;
+            if (!bucket || bucket.head == null) continue;
             for (let i = 0; i < bucket.size(); i++) {
                 let key = bucket.at(i).value[0];
                 let value = bucket.at(i).value[1];
-                entries.push([key, value]);
+                entries.push([key, value, this.hash(key)]);
             }
         }
         return entries;
