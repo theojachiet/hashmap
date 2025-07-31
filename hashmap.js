@@ -1,7 +1,7 @@
 import { LinkedList } from "./linkedlist.js";
 
 export class HashMap {
-    constructor(capacity = 17, loadFactor = 0.75) {
+    constructor(capacity = 17, loadFactor = 0.70) {
         this.capacity = capacity;
         this.loadFactor = loadFactor;
         this.buckets = new Array(capacity);
@@ -19,7 +19,18 @@ export class HashMap {
         return hashCode % this.capacity;
     }
 
-
+    entries() {
+        let entries = [];
+        for (let bucket of this.buckets) {
+            if (!bucket || bucket.head == null) continue;
+            for (let i = 0; i < bucket.size(); i++) {
+                let key = bucket.at(i).value[0];
+                let value = bucket.at(i).value[1];
+                entries.push([key, value, this.hash(key)]);
+            }
+        }
+        return entries;
+    }
 
     set(key, value) {
         let hashCode = this.hash(key);
@@ -30,7 +41,6 @@ export class HashMap {
             this.buckets[hashCode].append([key, value]);
             this.currentLength++;
             this.checkGrowth();
-            //TODO : check if array exceeds the load factor and resize if it's the case
         } else {
             //Key is already stored : we update the value
             if (this.buckets[hashCode].contains(key)) {
@@ -79,7 +89,7 @@ export class HashMap {
 
     keys() {
         let keys = [];
-        for (let bucket of buckets) {
+        for (let bucket of this.buckets) {
             if (!bucket) continue;
             for (let i = 0; i < bucket.size(); i++) {
                 let key = bucket.at(i).value[0];
@@ -91,7 +101,7 @@ export class HashMap {
 
     values() {
         let values = [];
-        for (let bucket of buckets) {
+        for (let bucket of this.buckets) {
             if (!bucket) continue;
             for (let i = 0; i < bucket.size(); i++) {
                 let value = bucket.at(i).value[1];
@@ -99,19 +109,6 @@ export class HashMap {
             }
         }
         return values;
-    }
-
-    entries() {
-        let entries = [];
-        for (let bucket of this.buckets) {
-            if (!bucket || bucket.head == null) continue;
-            for (let i = 0; i < bucket.size(); i++) {
-                let key = bucket.at(i).value[0];
-                let value = bucket.at(i).value[1];
-                entries.push([key, value, this.hash(key)]);
-            }
-        }
-        return entries;
     }
 
     checkGrowth() {
@@ -132,13 +129,15 @@ export class HashMap {
         let newArr = new Array(this.buckets.length * 2);
 
         //Storing the pairs in a temp Array and reassigning the buckets array;
-        let entries = entries();
+        let entries = this.entries();
         this.buckets = newArr;
 
         //Re-populating the array
         for (let entry of entries) {
             this.set(entry[0], entry[1]);
         }
+
+        this.capacity = this.buckets.length;
     }
 
 }
