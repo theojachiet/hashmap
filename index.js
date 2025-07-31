@@ -1,6 +1,8 @@
 import { HashMap } from "./hashmap.js";
+import { HashSet } from "./hashset.js";
 
-const test = new HashMap()
+const test = new HashMap();
+const set = new HashSet();
 
 test.set('apple', 'red')
 test.set('banana', 'yellow')
@@ -25,4 +27,25 @@ test.set('fridge', 'gray')
 
 // console.log(test.entries());
 
-console.log(test.values())
+// console.log(test.values())
+
+set.set('apple')
+set.set('banana')
+set.set('carrot')
+set.set('dog')
+set.set('elephant')
+set.set('frog')
+set.set('grape')
+set.set('hat')
+set.set('ice cream')
+set.set('moon')
+set.set('pear')
+set.set('wood')
+set.set('soldier')
+set.set('fridge')
+
+console.log(set.entries());
+
+set.remove('moon');
+
+console.log(set.keys());

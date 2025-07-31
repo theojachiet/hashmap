@@ -1,6 +1,6 @@
-import { LinkedList } from "./linkedlist.js";
+import { LinkedList } from "./linkedlistSet.js";
 
-export class HashMap {
+export class HashSet {
     constructor(capacity = 17, loadFactor = 0.70) {
         this.capacity = capacity;
         this.loadFactor = loadFactor;
@@ -24,31 +24,29 @@ export class HashMap {
         for (let bucket of this.buckets) {
             if (!bucket || bucket.head == null) continue;
             for (let i = 0; i < bucket.size(); i++) {
-                let key = bucket.at(i).value[0];
-                let value = bucket.at(i).value[1];
-                entries.push([key, value, this.hash(key)]);
+                let key = bucket.at(i).value;
+                entries.push([key, this.hash(key)]);
             }
         }
         return entries;
     }
 
-    set(key, value) {
+    set(key) {
         let hashCode = this.hash(key);
 
-        //Key doesn't exist : we store the key value pair
+        //Key doesn't exist : we store the key
         if (this.buckets[hashCode] == null) {
             this.buckets[hashCode] = new LinkedList();
-            this.buckets[hashCode].append([key, value]);
+            this.buckets[hashCode].append(key);
             this.currentLength++;
             this.checkGrowth();
         } else {
-            //Key is already stored : we update the value
+            //Key is already stored : we do nothing
             if (this.buckets[hashCode].contains(key)) {
-                let index = this.buckets[hashCode].find(key);
-                this.buckets[hashCode].at(index).value[1] = value;
+                return;
             } else {
                 //hashcode is taken but key is different : we create a new node
-                this.buckets[hashCode].append([key, value]);
+                this.buckets[hashCode].append(key);
                 this.currentLength++;
             }
         }
@@ -59,7 +57,7 @@ export class HashMap {
         if (!this.buckets[hashCode].contains(key)) return null;
 
         let index = this.buckets[hashCode].find(key);
-        return this.buckets[hashCode].at(index).value[1];
+        return this.buckets[hashCode].at(index).value;
     }
 
     has(key) {
@@ -82,7 +80,7 @@ export class HashMap {
     }
 
     clear() {
-        this.buckets = new Array(16); 
+        this.buckets = new Array(16);
         this.currentLength = 0;
     }
 
@@ -91,23 +89,11 @@ export class HashMap {
         for (let bucket of this.buckets) {
             if (!bucket || bucket.head == null) continue;
             for (let i = 0; i < bucket.size(); i++) {
-                let key = bucket.at(i).value[0];
+                let key = bucket.at(i).value;
                 keys.push(key);
             }
         }
         return keys;
-    }
-
-    values() {
-        let values = [];
-        for (let bucket of this.buckets) {
-            if (!bucket || bucket.head == null) continue;
-            for (let i = 0; i < bucket.size(); i++) {
-                let value = bucket.at(i).value[1];
-                values.push(value);
-            }
-        }
-        return values;
     }
 
     checkGrowth() {

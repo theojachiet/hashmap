@@ -72,28 +72,28 @@ export class LinkedList {
         temp.nextNode = null;
     }
 
-    contains(key) {
+    contains(value) {
         let temp = this.head;
 
         while (temp.nextNode != null) {
-            if (temp.value[0] === key) return true;
+            if (temp.value === value) return true;
             temp = temp.nextNode;
         }
 
-        return temp.value[0] === key;
+        return temp.value === value;
     }
 
-    find(key) {
+    find(value) {
         let temp = this.head;
         let currentIndex = 0;
 
         while (temp.nextNode != null) {
-            if (temp.value[0] === key) return currentIndex;
+            if (temp.value === value) return currentIndex;
             temp = temp.nextNode;
             currentIndex++;
         }
 
-        if (temp.value[0] === key) return currentIndex;
+        if (temp.value === value) return currentIndex;
 
         return null;
     }
@@ -114,10 +114,7 @@ export class LinkedList {
 
     removeAt(index) {
         if (index < 0 || index > this.size() - 1) throw new Error('Index out of bounds');
-        if (index === this.size() - 1) {
-            this.pop();
-            return;
-        }
+        if (index === this.size() - 1) return this.pop();
 
         let prev = this.head;
         let temp = prev.nextNode;
